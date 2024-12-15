@@ -33,7 +33,7 @@ const Header = () => {
 }, [menuOpened])
 
   return (
-    <header className="fixed top-0 w-full left-0 right-0 z-50">
+    <header className='fixed top-0 w-full left-0 right-0 z-50'>
       <div className={`${active ? 'bg-white py-2.5' : 'py-3 bg-primary'} max-padd-container flexBetween 
       border-b border-slate-900/10 rounded transition-all duration-300`}>
         {/* Logo */}

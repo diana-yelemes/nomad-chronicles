@@ -32,7 +32,7 @@ const Navbar = ({containerStyles, toggleMenu, menuOpened}) => {
                     </a>
             )
             :
-            (   <NavLink to ={to} className={({isActive})=> isActive ? "active-link fixCenter gap-x-2" : "fixCenter gap-x-2"}>
+            (   <NavLink to ={to} className={({isActive})=> isActive ? "active-link flexCenter gap-x-2" : "flexCenter gap-x-2"}>
                     <span className='text-xl'>{icon}</span>
                     <span className='medium-16'>{label}</span>
                 </NavLink>)

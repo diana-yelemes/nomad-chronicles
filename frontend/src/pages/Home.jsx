@@ -3,6 +3,7 @@ import NewArrivals from '../components/NewArrivals'
 import Hero from '../components/Hero'
 import PopularFigures from '../components/PopularFigures'
 import Footer from '../components/Footer'
+import Features from '../components/Features'
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
     <Hero/>
     <NewArrivals />
     <PopularFigures />
+    <Features />
     <Footer/>
     </>
   )

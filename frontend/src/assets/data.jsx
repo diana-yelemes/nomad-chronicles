@@ -77,7 +77,7 @@ export const historyfigures = [
     deathYear: 1904,
     description: "A prominent Kazakh poet, composer, and philosopher.",
     category: "Artists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What year was Abai Qunanbayuli born?", options: [1855, 1845, 1868, 1852], answer: 1845 },
     ]
@@ -90,7 +90,7 @@ export const historyfigures = [
     deathYear: 1700,
     description: "A respected judge, orator, and one of the three Kazakh 'biys'.",
     category: "Artists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "When was Aiteke Bi born?", options: [1644, 1650, 1630, 1666], answer: 1644 },
     ]
@@ -116,7 +116,7 @@ export const historyfigures = [
     deathYear: 950,
     description: "A legendary poet and musician, the creator of the kobyz.",
     category: "Artists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What instrument is Korkyt Ata associated with?", options: ["Dombra", "Kobyz", "Flute", "Guitar"], answer: "Kobyz" },
     ]
@@ -129,7 +129,7 @@ export const historyfigures = [
     deathYear: 1938,
     description: "A Kazakh writer and political figure.",
     category: "Artists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What was Seyfullin's main contribution to Kazakh culture?", options: ["Literature", "Painting", "Science", "Politics"], answer: "Literature" },
     ]
@@ -170,7 +170,7 @@ export const historyfigures = [
     deathYear: 1778,
     description: "A famous Kazakh warrior and commander who defended his people from invasions.",
     category: "Batyrs",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What was Bogenbai known for?", options: ["Politics", "Science", "Warrior", "Music"], answer: "Warrior" },
     ]
@@ -183,7 +183,7 @@ export const historyfigures = [
     deathYear: 1770,
     description: "A Kazakh batyr celebrated for his leadership in battles against external enemies.",
     category: "Batyrs",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "When was Kabanbai Batyr born?", options: [1691, 1700, 1685, 1715], answer: 1691 },
     ]
@@ -222,7 +222,7 @@ export const historyfigures = [
     deathYear: 1785,
     description: "A Kazakh batyr who is remembered for his courage and leadership in battle.",
     category: "Batyrs",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "When did Raiymbek Batyr die?", options: [1785, 1770, 1760, 1800], answer: 1785 },
     ]
@@ -263,7 +263,7 @@ export const historyfigures = [
     deathYear: 1938,
     description: "A Kazakh revolutionary and political figure in Soviet Kazakhstan.",
     category: "Politicians",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "When was Turar Ryskulov born?", options: [1890, 1894, 1900, 1885], answer: 1894 },
     ]
@@ -291,7 +291,7 @@ export const historyfigures = [
     deathYear: 1781,
     description: "One of the most prominent Kazakh khans who unified the Kazakh people and defended against invasions.",
     category: "Rulers",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What year did Abylai Khan die?", options: [1771, 1781, 1791, 1761], answer: 1781 },
     ]
@@ -304,7 +304,7 @@ export const historyfigures = [
     deathYear: 1518,
     description: "A Kazakh khan known for creating the first written set of laws, 'Kasym Khan's Code of Laws.'",
     category: "Rulers",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What is Kasym Khan best known for?", options: ["Military conquests", "Writing laws", "Art", "Diplomacy"], answer: "Writing laws" },
     ]
@@ -330,7 +330,7 @@ export const historyfigures = [
     deathYear: 1473,
     description: "One of the founding fathers of the Kazakh Khanate alongside Zhanibek Khan.",
     category: "Rulers",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "Who did Kerey Khan co-found the Kazakh Khanate with?", options: ["Abylai Khan", "Kasym Khan", "Zhanibek Khan", "Kenessary Khan"], answer: "Zhanibek Khan" },
     ]
@@ -343,7 +343,7 @@ export const historyfigures = [
     deathYear: 1473,
     description: "A key figure in the establishment of the Kazakh Khanate with Kerey Khan.",
     category: "Rulers",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "When was Zhanibek Khan born?", options: [1430, 1433, 1440, 1425], answer: 1433 },
     ]
@@ -371,7 +371,7 @@ export const historyfigures = [
     deathYear: 1961,
     description: "A prominent Kazakh writer and scholar, best known for his novel 'Abai's Path.'",
     category: "Scientists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What is Auezov's famous novel called?", options: ["Abai's Path", "Kazakh History", "Golden Steppe", "Path of the Khan"], answer: "Abai's Path" },
     ]
@@ -423,7 +423,7 @@ export const historyfigures = [
     deathYear: 1964,
     description: "A renowned geologist and the first President of the Academy of Sciences of Kazakhstan.",
     category: "Scientists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What was Kanysh Satpayev known for?", options: ["Geology", "Literature", "Military leadership", "Medicine"], answer: "Geology" },
     ]
@@ -436,7 +436,7 @@ export const historyfigures = [
     deathYear: 1865,
     description: "An ethnographer and historian who studied the culture and history of Central Asia.",
     category: "Scientists",
-    popular: true,
+    popular: false,
     quiz: [
         { question: "What field did Valikhanov specialize in?", options: ["Ethnography", "Mathematics", "Physics", "Medicine"], answer: "Ethnography" },
     ]
