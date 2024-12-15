@@ -66,8 +66,7 @@ const Header = () => {
             className="text-2xl xl:hidden cursor-pointer"
           />
           <div className='relative group'>
-            <div onClick={!token && navigate('/')} 
-            className=''>
+            <div className=''>
               {token ? (
                 <div><TbUserCircle className='text-[29px] cursor-pointer'/></div>
               ) : (
