@@ -1,20 +1,41 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import Navbar from './Navbar';
 import { CgMenuLeft } from 'react-icons/cg';
 import { RiUserLine } from 'react-icons/ri';
+import { TbUserCircle} from 'react-icons/tb';
+import { FigureContext } from '../context/FigureContext';
 
 const Header = () => {
+  
+  const {navigate, token, setToken} = useContext(FigureContext)
+  const [active, setActive] = useState(false);  
   const [menuOpened, setMenuOpened] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpened((prev) => !prev);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if(window.scrollY>0){
+        if(menuOpened) {
+          setMenuOpened(false);
+      }
+    }
+      setActive(window.scrollY>30)
+  }
+  window.addEventListener("scroll", handleScroll)
+  return () => {
+    window.removeEventListener("scroll", handleScroll)
+  }
+}, [menuOpened])
+
   return (
     <header className="fixed top-0 w-full left-0 right-0 z-50">
-      <div className="bg-white py-2.5 max-padd-container flexBetween border-b border-slate-900/10 rounded transition-all duration-300">
+      <div className={`${active ? 'bg-white py-2.5' : 'py-3 bg-primary'} max-padd-container flexBetween 
+      border-b border-slate-900/10 rounded transition-all duration-300`}>
         {/* Logo */}
         <Link to="/" className="flex-1 flex items-center justify-start">
           <img
@@ -44,11 +65,23 @@ const Header = () => {
             onClick={toggleMenu}
             className="text-2xl xl:hidden cursor-pointer"
           />
-          <div>
-            <button className="btn-outline flexCenter gap-x-2">
-              Login
-              <RiUserLine />
-            </button>
+          <div className='relative group'>
+            <div onClick={!token && navigate('/')} 
+            className=''>
+              {token ? (
+                <div><TbUserCircle className='text-[29px] cursor-pointer'/></div>
+              ) : (
+                <button className="btn-outline flexCenter gap-x-2"> Login <RiUserLine /></button>
+              )}
+            </div>
+            {token && <>
+            <ul className='bg-white p-1 w-32 ring-1 ring-slate-900/5 
+            rounded absolute right-0 top-8 hidden group-hover:flex flex-col 
+            regular-14 shadow-md'>
+              <li className='p-2 text-tertiary rounded-md hover:bg-primary cursor-pointer'>Profile</li>
+              <li className='p-2 text-tertiary rounded-md hover:bg-primary cursor-pointer'>Logout</li>
+            </ul>
+            </>}
           </div>
         </div>
       </div>

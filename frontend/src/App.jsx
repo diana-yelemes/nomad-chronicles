@@ -6,7 +6,7 @@ import Figures from './pages/Figures'
 
 const App = () => {
   return (
-    <main classname='overflow-hidden bg-primary'>
+    <main className='overflow-hidden bg-primary'>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
