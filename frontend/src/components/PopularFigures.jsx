@@ -16,7 +16,7 @@ const PopularFigures = () => {
   return (
     <section className='max-padd-container py-16 bg-white'>
       <Title title1={'Popular'} title2={' Figures'} titleStyles={'pb-10'}
-      paraStyles={'!block'}/>
+      paraStyles={'!block'} para='The most commonly studied figures!'/>
       {/* Container */}
       <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 
       lg:grid-cols-4 xl:grid-cols-5 gap-10'>

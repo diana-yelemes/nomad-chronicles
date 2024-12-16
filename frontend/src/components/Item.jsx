@@ -6,7 +6,7 @@ const Item = ({figure}) => {
     <div>
         <div className='flexCenter bg-rpimary p-6 rounded-3xl overflow-hidden
         relative group'>
-            <Link to = {'/biography'}>
+            <Link to={`/biography/${figure._id}`}>
             <img src={figure.image} alt='figImg' className='shadow-xl shadow-slate-900/30
             rounded-lg cursor-pointer'/>
             </Link>

@@ -5,6 +5,9 @@ import Home from './pages/Home'
 import Figures from './pages/Figures'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
+import Biography from './pages/Biography'
+import Chat from './pages/Chat'
+import Quiz from './pages/Quiz'
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
         <Route path='/figures' element={<Figures />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/login' element={<Login />} />
+        <Route path="/biography/:id" element={<Biography />}/>
+        <Route path='/chat/:id' element={<Chat />} />
+        <Route path='/quiz/:id' element={<Quiz />} />
       </Routes>
     </main>
   )

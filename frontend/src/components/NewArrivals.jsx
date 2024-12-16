@@ -22,7 +22,8 @@ const NewArrivals = () => {
   return (
     <section className='max-padd-container py-16 bg-white'>
         <Title title1={'New'} title2={' Arrivals'} 
-        titleStyles={'pb-10'} paraStyles={'!block'}/>
+        titleStyles={'pb-10'} paraStyles={'!block'} para='New figures added to
+        the catalogue for learning!'/>
         {/* Swiper */}
         <Swiper
         autoplay={{
