@@ -5,9 +5,9 @@ import Footer from '../components/Footer';
 import Title from '../components/Title';
 
 const Biography = () => {
-    const { historyfigures } = useContext(FigureContext);
+    const { figures } = useContext(FigureContext); // Use figures instead of historyfigures
     const { id } = useParams();
-    const figure = historyfigures.find(figure => figure._id === id);
+    const figure = figures.find(figure => figure._id === id);
 
     if (!figure) {
         return <div>Figure not found</div>;
@@ -16,8 +16,12 @@ const Biography = () => {
     return (
         <div className='page-container container mx-auto p-4 pt-16'>
             {/* Header Section */}
-            <Title title1={'Study '} title2={figure.name}
-            titleStyles={'pb-10'} paraStyles={'!block'}/>
+            <Title 
+                title1={'Study '} 
+                title2={figure.name}
+                titleStyles={'pb-10'} 
+                paraStyles={'!block'}
+            />
 
             <div className='flex flex-col md:flex-row'>
                 {/* Image Section */}
@@ -33,7 +37,7 @@ const Biography = () => {
                 <div className='md:w-1/2 p-4'>
                     <h2 className='text-2xl font-bold'>{figure.name}</h2>
                     <p><strong>Born:</strong> {figure.birthYear}</p>
-                    <p><strong>Died:</strong> {figure.deathYear}</p>
+                    <p><strong>Died:</strong> {figure.deathYear || 'N/A'}</p>
                     <p>{figure.description}</p>
 
                     {/* Buttons Section */}
