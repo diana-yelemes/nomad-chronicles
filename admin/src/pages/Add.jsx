@@ -82,12 +82,11 @@ const AddFigure = ({ token }) => {
               value={category}
               className="px-3 py-2 ring-1 ring-slate-900/10 rounded bg-white mt-1 sm:w-full text-gray-30"
             >
-              <option value="Politician">Politician</option>
-              <option value="Scientist">Scientist</option>
-              <option value="Philosopher">Philosopher</option>
-              <option value="Poet">Poet</option>
-              <option value="Historian">Historian</option>
-              <option value="Artist">Artist</option>
+              <option value="Artists">Artists</option>
+              <option value="Batyrs">Batyrs</option>
+              <option value="Politicians">Politicians</option>
+              <option value="Rulers">Rulers</option>
+              <option value="Scientists">Scientists</option>
             </select>
           </div>
         </div>

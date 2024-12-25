@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import Title from '../components/Title';
 
 const Biography = () => {
-    const { figures } = useContext(FigureContext); // Use figures instead of historyfigures
+    const { figures } = useContext(FigureContext); 
     const { id } = useParams();
     const figure = figures.find(figure => figure._id === id);
 

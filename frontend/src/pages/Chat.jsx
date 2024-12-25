@@ -34,10 +34,10 @@ const Chat = () => {
         if (userInput.toLowerCase().includes('hello')) {
             return `Hello! I am ${figure.name}. How can I help you today?`;
         }
-        if (userInput.toLowerCase().includes('birth year')) {
+        if (userInput.toLowerCase().includes('Whats your birth year?')) {
             return `I was born in ${figure.birthYear}.`;
         }
-        if (userInput.toLowerCase().includes('death year')) {
+        if (userInput.toLowerCase().includes('Whats your death year?')) {
             return `I passed away in ${figure.deathYear || 'N/A'}.`;
         }
         if (userInput.toLowerCase().includes('tell me about yourself')) {

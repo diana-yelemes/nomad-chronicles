@@ -16,7 +16,7 @@ const FigureContextProvider = (props) => {
     // Fetch all historical figures
     const getFiguresData = async () => {
         try {
-            const response = await axios.get(backendUrl + '/api/figure/list');
+            const response = await axios.get(`${backendUrl}/api/figure/list`);
             if (response.data.success) {
                 setFigures(response.data.figures);
             } else {
@@ -26,6 +26,13 @@ const FigureContextProvider = (props) => {
             console.log('Using static data due to fetch error');
             setFigures(historyfigures); // Fallback to static data
         }
+    };
+
+    // Logout Functionality
+    const logout = () => {
+        setToken(''); // Clear token in state
+        localStorage.removeItem('token'); // Remove token from localStorage
+        navigate('/login'); // Redirect to login page
     };
 
     // Authentication: Retrieve token from localStorage if available
@@ -43,6 +50,7 @@ const FigureContextProvider = (props) => {
         token,
         setToken,
         backendUrl,
+        logout, // Expose logout function
     };
 
     return (
