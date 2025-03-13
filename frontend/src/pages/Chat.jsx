@@ -4,9 +4,9 @@ import { FigureContext } from '../context/FigureContext';
 import Title from '../components/Title';
 
 const Chat = () => {
-    const { historyfigures } = useContext(FigureContext);
+    const { figures } = useContext(FigureContext); // Updated to use figures
     const { id } = useParams();
-    const figure = historyfigures.find(figure => figure._id === id);
+    const figure = figures.find(figure => figure._id === id);
 
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -34,11 +34,11 @@ const Chat = () => {
         if (userInput.toLowerCase().includes('hello')) {
             return `Hello! I am ${figure.name}. How can I help you today?`;
         }
-        if (userInput.toLowerCase().includes('birth year')) {
+        if (userInput.toLowerCase().includes('Whats your birth year?')) {
             return `I was born in ${figure.birthYear}.`;
         }
-        if (userInput.toLowerCase().includes('death year')) {
-            return `I passed away in ${figure.deathYear}.`;
+        if (userInput.toLowerCase().includes('Whats your death year?')) {
+            return `I passed away in ${figure.deathYear || 'N/A'}.`;
         }
         if (userInput.toLowerCase().includes('tell me about yourself')) {
             return figure.description;
@@ -48,7 +48,7 @@ const Chat = () => {
 
     return (
         <div className="flex flex-col h-screen page-container container mx-auto p-4 pt-16">
-            <Title title1={'Chat with '} title2={figure.name} title1Styles={'pb-10}'} />
+            <Title title1={'Chat with '} title2={figure.name} title1Styles={'pb-10'} />
 
             <div className="flex-grow border rounded-lg p-4 h-80 overflow-y-auto mb-4">
                 {messages.map((msg, index) => (
