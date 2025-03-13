@@ -41,7 +41,7 @@ const Login = () => {
           toast.success(`Welcome ${isAdmin ? 'Admin' : 'User'}!`);
 
           if (isAdmin) {
-            window.location.href = `http://localhost:5174/dashboard`; // Admin panel port
+            window.location.href = `http://localhost:5175/dashboard`; // Admin panel port
           } else {
             navigate('/');
           }

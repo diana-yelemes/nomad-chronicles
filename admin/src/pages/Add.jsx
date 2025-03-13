@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import upload_icon from "../assets/upload_icon.png";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { backend_url } from '../config/config';
+import { backend_url } from "../config/config";
 
 const AddFigure = ({ token }) => {
   const [imageUrl, setImageUrl] = useState("");
@@ -11,7 +10,7 @@ const AddFigure = ({ token }) => {
   const [birthYear, setBirthYear] = useState("");
   const [deathYear, setDeathYear] = useState("");
   const [notableWorks, setNotableWorks] = useState("");
-  const [category, setCategory] = useState("Politician");
+  const [category, setCategory] = useState("Politicians"); // Default to Politician
   const [popular, setPopular] = useState(false);
 
   const onSubmitHandler = async (e) => {
@@ -20,7 +19,7 @@ const AddFigure = ({ token }) => {
       const figureData = {
         name,
         description,
-        category,
+        category, // Ensure this reflects the selected category
         birthYear,
         deathYear,
         notableWorks,
@@ -28,25 +27,28 @@ const AddFigure = ({ token }) => {
         imageUrl,
       };
 
+      console.log("Submitting Data:", figureData); // Debugging log
+
       const response = await axios.post(`${backend_url}/api/figure/create`, figureData, {
         headers: { token },
       });
 
       if (response.data.success) {
         toast.success(response.data.message);
+        // Reset form
         setName("");
         setDescription("");
         setBirthYear("");
         setDeathYear("");
         setNotableWorks("");
-        setCategory("Politician");
+        setCategory("Politicians"); // Reset to default
         setImageUrl("");
         setPopular(false);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error submitting figure:", error);
       toast.error(error.message);
     }
   };
@@ -78,7 +80,10 @@ const AddFigure = ({ token }) => {
           <div>
             <h5 className="h5">Category</h5>
             <select
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                console.log("Selected Category:", e.target.value); // Debugging log
+              }}
               value={category}
               className="px-3 py-2 ring-1 ring-slate-900/10 rounded bg-white mt-1 sm:w-full text-gray-30"
             >
@@ -133,16 +138,17 @@ const AddFigure = ({ token }) => {
           />
         </div>
         <div className="flexStart gap-2 my-2">
-          <input
-            onChange={() => setPopular((prev) => !prev)}
-            type="checkbox"
-            checked={popular}
-            id="popular"
-          />
-          <label htmlFor="popular" className="cursor-pointer">
-            Mark as popular
-          </label>
-        </div>
+  <input
+    onChange={(e) => setPopular(e.target.checked)} // Update state directly based on checkbox status
+    type="checkbox"
+    checked={popular}
+    id="popular"
+  />
+  <label htmlFor="popular" className="cursor-pointer">
+    Mark as popular
+  </label>
+</div>
+
         <button type="submit" className="btn-dark !rounded mt-3 max-w-44 sm:w-full">
           Add Figure
         </button>

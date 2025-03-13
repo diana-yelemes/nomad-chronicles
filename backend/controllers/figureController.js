@@ -19,7 +19,7 @@ const createFigure = async (req, res) => {
             birthYear: Number(birthYear),
             deathYear: deathYear ? Number(deathYear) : null,
             notableWorks: notableWorks ? notableWorks.split(",").map(work => work.trim()) : [],
-            popular: popular === "true",
+            popular: popular === "true" || popular === true,
             image: imageUrl, // Use only the provided imageUrl
             createdAt: Date.now(),
         };
