@@ -4,52 +4,51 @@ import { FigureContext } from '../context/FigureContext';
 import Title from '../components/Title';
 
 const Chat = () => {
-    const { figures } = useContext(FigureContext); // Updated to use figures
+    const { figures } = useContext(FigureContext);
     const { id } = useParams();
     const figure = figures.find(figure => figure._id === id);
 
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [loading, setLoading] = useState(false);
 
     if (!figure) {
         return <div>Figure not found</div>;
     }
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (input.trim() === '') return;
 
-        // Add user message
-        setMessages(prev => [...prev, { sender: 'user', text: input }]);
-
-        // Simulate AI response based on the figure
-        const response = getFigureResponse(input);
-        setMessages(prev => [...prev, { sender: 'ai', text: response }]);
-        
-        // Clear input field
+        const newMessages = [...messages, { sender: 'user', text: input }];
+        setMessages(newMessages);
         setInput('');
-    };
+        setLoading(true);
 
-    const getFigureResponse = (userInput) => {
-        // Basic AI logic to respond based on user input
-        if (userInput.toLowerCase().includes('hello')) {
-            return `Hello! I am ${figure.name}. How can I help you today?`;
+        try {
+            const response = await fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ figure_id: figure._id, message: input })
+            });
+            
+            const data = await response.json();
+            if (response.ok) {
+                setMessages([...newMessages, { sender: 'ai', text: data.response }]);
+            } else {
+                setMessages([...newMessages, { sender: 'ai', text: "I'm having trouble responding right now." }]);
+            }
+        } catch (error) {
+            console.error("Error chatting:", error);
+            setMessages([...newMessages, { sender: 'ai', text: "Error reaching the server." }]);
+        } finally {
+            setLoading(false);
         }
-        if (userInput.toLowerCase().includes('Whats your birth year?')) {
-            return `I was born in ${figure.birthYear}.`;
-        }
-        if (userInput.toLowerCase().includes('Whats your death year?')) {
-            return `I passed away in ${figure.deathYear || 'N/A'}.`;
-        }
-        if (userInput.toLowerCase().includes('tell me about yourself')) {
-            return figure.description;
-        }
-        return "I'm sorry, I don't understand that.";
     };
 
     return (
-        <div className="flex flex-col h-screen page-container container mx-auto p-4 pt-16">
+        <div className="flex flex-col h-screen container mx-auto p-4 pt-16">
             <Title title1={'Chat with '} title2={figure.name} title1Styles={'pb-10'} />
-
+            
             <div className="flex-grow border rounded-lg p-4 h-80 overflow-y-auto mb-4">
                 {messages.map((msg, index) => (
                     <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
@@ -67,9 +66,10 @@ const Chat = () => {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type your message..."
                     className="border rounded-lg flex-grow p-2 mr-2"
+                    disabled={loading}
                 />
-                <button onClick={handleSend} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    Send
+                <button onClick={handleSend} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" disabled={loading}>
+                    {loading ? 'Loading...' : 'Send'}
                 </button>
             </div>
         </div>
