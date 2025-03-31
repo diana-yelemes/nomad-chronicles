@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FigureContext } from '../context/FigureContext';
+import axios from 'axios';
 import Title from '../components/Title';
 
 const Chat = () => {
@@ -10,7 +11,6 @@ const Chat = () => {
 
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
-    const [loading, setLoading] = useState(false);
 
     if (!figure) {
         return <div>Figure not found</div>;
@@ -18,37 +18,36 @@ const Chat = () => {
 
     const handleSend = async () => {
         if (input.trim() === '') return;
-
-        const newMessages = [...messages, { sender: 'user', text: input }];
-        setMessages(newMessages);
-        setInput('');
-        setLoading(true);
-
+    
+        const userMessage = { sender: 'user', text: input };
+        setMessages(prev => [...prev, userMessage]);
+    
         try {
-            const response = await fetch('http://localhost:5000/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ figure_id: figure._id, message: input })
+            const response = await axios.post("http://127.0.0.1:4000/api/chat", {
+                figure_id: figure._id,
+                message: input
             });
-            
-            const data = await response.json();
-            if (response.ok) {
-                setMessages([...newMessages, { sender: 'ai', text: data.response }]);
+    
+            console.log("API Response:", response.data); // Debugging
+    
+            if (response.status === 200 && response.data.success) {
+                setMessages(prev => [...prev, { sender: 'ai', text: response.data.response }]);
             } else {
-                setMessages([...newMessages, { sender: 'ai', text: "I'm having trouble responding right now." }]);
+                setMessages(prev => [...prev, { sender: 'ai', text: 'Sorry, I could not generate a response.' }]);
             }
         } catch (error) {
-            console.error("Error chatting:", error);
-            setMessages([...newMessages, { sender: 'ai', text: "Error reaching the server." }]);
-        } finally {
-            setLoading(false);
+            console.error("Chat API Error:", error);
+            setMessages(prev => [...prev, { sender: 'ai', text: 'Error contacting AI service.' }]);
         }
+    
+        setInput('');
     };
+    
 
     return (
-        <div className="flex flex-col h-screen container mx-auto p-4 pt-16">
+        <div className="flex flex-col h-screen page-container container mx-auto p-4 pt-16">
             <Title title1={'Chat with '} title2={figure.name} title1Styles={'pb-10'} />
-            
+
             <div className="flex-grow border rounded-lg p-4 h-80 overflow-y-auto mb-4">
                 {messages.map((msg, index) => (
                     <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
@@ -66,10 +65,9 @@ const Chat = () => {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type your message..."
                     className="border rounded-lg flex-grow p-2 mr-2"
-                    disabled={loading}
                 />
-                <button onClick={handleSend} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" disabled={loading}>
-                    {loading ? 'Loading...' : 'Send'}
+                <button onClick={handleSend} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Send
                 </button>
             </div>
         </div>
