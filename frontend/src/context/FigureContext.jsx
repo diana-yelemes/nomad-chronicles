@@ -28,6 +28,19 @@ const FigureContextProvider = (props) => {
         }
     };
 
+    const getFigureById = async (id) => {
+        try {
+          const response = await axios.get(`${backendUrl}/api/figure/${id}`);
+          if (response.data.success) {
+            return response.data.figure;
+          }
+          return historyfigures.find(fig => fig._id === id); // Fallback to static data
+        } catch (error) {
+          console.error('Error fetching figure:', error);
+          return historyfigures.find(fig => fig._id === id); // Fallback to static data
+        }
+      };
+
     // Logout Functionality
     const logout = () => {
         setToken(''); // Clear token in state
@@ -45,6 +58,7 @@ const FigureContextProvider = (props) => {
 
     const contextValue = {
         figures,
+        getFigureById,
         currency,
         navigate,
         token,

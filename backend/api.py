@@ -1,51 +1,61 @@
-from flask import Flask, request, jsonify
-from flask_pymongo import PyMongo
-import requests
+from fastapi import FastAPI, HTTPException
+from pymongo import MongoClient
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+import os
+from dotenv import load_dotenv
 
-app = Flask(__name__)
+load_dotenv()
 
-# MongoDB Configuration
-app.config["MONGO_URI"] = "mongodb://localhost:27017/history_chatbot"
-mongo = PyMongo(app)
+app = FastAPI()
 
-# Hugging Face API Configuration
-HF_API_URL = "https://api-inference.huggingface.co/models/deevnnv/nomadchroniclesapi"
-HF_API_KEY = "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"
+# Connect to MongoDB
+client = MongoClient(os.getenv("MONGODB_URI"))
+db = client[os.getenv("DB_NAME")]
+figures_collection = db["figures"]
 
-def get_ai_response(figure_name, user_input, bio):
+# Load the model (this will happen on startup)
+model_name = "HuggingFaceH4/zephyr-7b-beta"
+tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
+model = AutoModelForCausalLM.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
+chat_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+
+@app.post("/api/chat")
+async def chat_with_figure(request: dict):
+    figure_id = request.get("figure_id")
+    message = request.get("message")
+    
+    if not figure_id or not message:
+        raise HTTPException(status_code=400, detail="Missing figure_id or message")
+    
+    # Get figure data from MongoDB
+    figure = figures_collection.find_one({"_id": figure_id})
+    if not figure:
+        raise HTTPException(status_code=404, detail="Figure not found")
+    
+    # Create prompt with figure's personality
+    prompt = f"""You are {figure['name']}, a {figure['category']} known for: {figure['description']}.
+    Notable works: {', '.join(figure.get('notableWorks', []))}.
+    
+    The user says: {message}
+    
+    How would {figure['name']} respond? Answer in first person as if you are {figure['name']}:
     """
-    Sends user input to Hugging Face's Falcon model and returns the response.
-    """
-    prompt = f"""
-    You are {figure_name}, a historical figure.
-    Biography: {bio}
-    User: {user_input}
-    You:"""
     
-    headers = {"Authorization": f"Bearer {HF_API_KEY}"}
-    payload = {"inputs": prompt}
-    response = requests.post(HF_API_URL, headers=headers, json=payload)
-    
-    if response.status_code == 200:
-        return response.json()[0]['generated_text'].replace(prompt, '').strip()
-    else:
-        return "I'm sorry, I couldn't process your request right now."
-
-@app.route("/chat", methods=["POST"])
-def chat():
-    data = request.json
-    figure_id = data.get("figure_id")
-    user_input = data.get("message")
-
-    figure = mongo.db.figures.find_one({"_id": figure_id})
-    bio = mongo.db.biographies.find_one({"figure_id": figure_id})
-    
-    if not figure or not bio:
-        return jsonify({"error": "Figure not found"}), 404
-    
-    response = get_ai_response(figure['name'], user_input, bio['text'])
-    
-    return jsonify({"response": response})
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    # Generate response
+    try:
+        response = chat_pipeline(
+            prompt,
+            max_length=200,
+            do_sample=True,
+            temperature=0.7,
+            top_k=50,
+            top_p=0.95,
+        )
+        
+        return {
+            "success": True,
+            "response": response[0]["generated_text"].replace(prompt, "").strip()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

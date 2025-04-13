@@ -7,7 +7,7 @@ const Item = ({figure}) => {
         <div className='flexCenter bg-rpimary p-6 rounded-3xl overflow-hidden
         relative group'>
             <Link to={`/biography/${figure._id}`}>
-            <img src={figure.image} alt='figImg' className='shadow-xl shadow-slate-900/30
+            <img src={figure.image} alt='figImg' className='aspect-[3/4] overflow-hidden object-cover shadow-xl shadow-slate-900/30
             rounded-lg cursor-pointer'/>
             </Link>
         </div>

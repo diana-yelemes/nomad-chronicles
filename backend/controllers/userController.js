@@ -93,11 +93,15 @@ const handleAdminLogin = async (req, res) => {
 // Controller function to add/remove favorite figures
 const updateFavoriteFigures = async (req, res) => {
     try {
-        const { userId, figureId, action } = req.body;
+        const { figureId, action } = req.body;
+        const userId = req.user._id; // Get from auth middleware
 
         const user = await userModel.findById(userId);
         if (!user) {
-            return res.json({ success: false, message: "User not found" });
+            return res.status(404).json({ 
+                success: false, 
+                message: "User not found" 
+            });
         }
 
         if (action === "add") {
@@ -106,32 +110,47 @@ const updateFavoriteFigures = async (req, res) => {
                 await user.save();
             }
         } else if (action === "remove") {
-            user.favoriteFigures = user.favoriteFigures.filter((id) => id !== figureId);
+            user.favoriteFigures = user.favoriteFigures.filter(id => id !== figureId);
             await user.save();
+        } else {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Invalid action" 
+            });
         }
 
-        res.json({ success: true, favoriteFigures: user.favoriteFigures });
+        res.json({ 
+            success: true, 
+            favoriteFigures: user.favoriteFigures 
+        });
     } catch (error) {
         console.error(error);
-        res.json({ success: false, message: error.message });
+        res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
     }
 };
 
 // Controller function to fetch favorite figures
 const getFavoriteFigures = async (req, res) => {
     try {
-        const { userId } = req.params;
-
-        const user = await userModel.findById(userId);
-        if (!user) {
-            return res.json({ success: false, message: "User not found" });
-        }
-
-        res.json({ success: true, favoriteFigures: user.favoriteFigures });
+        // User is already attached to request by auth middleware
+        const user = req.user;
+        
+        res.json({ 
+            success: true, 
+            favoriteFigures: user.favoriteFigures 
+        });
     } catch (error) {
         console.error(error);
-        res.json({ success: false, message: error.message });
+        res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
     }
 };
+
+
 
 export { handleUserLogin, handleUserRegister, handleAdminLogin, updateFavoriteFigures, getFavoriteFigures };
