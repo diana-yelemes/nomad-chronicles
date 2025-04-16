@@ -12,6 +12,6 @@ const figureSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }, // Timestamp for creation
 });
 
-const figureModel = mongoose.models.figure || mongoose.model("figure", figureSchema);
+const figureModel = mongoose.models.figure || mongoose.model("Figure", figureSchema);
 
 export default figureModel;

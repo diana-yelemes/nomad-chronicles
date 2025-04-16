@@ -80,7 +80,7 @@ const Chat = () => {
         <div className="flex flex-col h-screen page-container container mx-auto p-4 pt-16">
             <Title title1={'Chat with '} title2={figure.name} title1Styles={'pb-10'} />
 
-            <div className="flex-grow border rounded-lg p-4 mb-4 overflow-y-auto bg-gray-50">
+            <div className="flex-grow border rounded-lg p-4 mb-4 overflow-y-auto">
                 {messages.map((msg, index) => (
                     <div key={index} className={`mb-4 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
                         <div className={`inline-flex max-w-3/4 ${msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
